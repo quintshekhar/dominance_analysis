@@ -4,13 +4,16 @@
 <a href="https://github.com/bhagatsajan0073/dominance_analysis/blob/master/LICENSE">
   <img src="https://img.shields.io/github/license/bhagatsajan0073/dominance_analysis.svg">
 </a>
-<a href="https://github.com/bhagatsajan0073/dominance_analysis/network/members">
-  <img src="https://img.shields.io/github/forks/bhagatsajan0073/dominance_analysis.svg">
-</a>
 <a href="https://github.com/bhagatsajan0073/dominance_analysis/stargazers">
   <img src="https://img.shields.io/github/stars/bhagatsajan0073/dominance_analysis.svg">
 </a>
-[![Build](https://travis-ci.org/bhagatsajan0073/dominance_analysis.svg?branch=master)](https://travis-ci.org/bhagatsajan0073/dominance_analysis)
+<a href="https://github.com/bhagatsajan0073/dominance_analysis/network/members">
+  <img src="https://img.shields.io/github/forks/bhagatsajan0073/dominance_analysis.svg">
+</a>
+[![Build Status](https://travis-ci.org/bhagatsajan0073/dominance-analysis.svg?branch=master)](https://travis-ci.org/bhagatsajan0073/dominance-analysis)
+[![Build Status](https://dev.azure.com/shashanksist/shashank_sist/_apis/build/status/bhagatsajan0073.dominance-analysis?branchName=master)](https://dev.azure.com/shashanksist/shashank_sist/_build?definitionId=2)
+[![Build status](https://ci.appveyor.com/api/projects/status/t3w0hs7bhragnvbi?svg=true)](https://ci.appveyor.com/project/bhagatsajan0073/dominance-analysis)
+[![Documentation Status](https://readthedocs.org/projects/dominance-analysis/badge/?version=latest)](https://dominance-analysis.readthedocs.io/en/latest/?badge=latest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/97a8614c71d05ef05a3e/maintainability)](https://codeclimate.com/github/bhagatsajan0073/dominance_analysis/maintainability) [![Join the chat at https://gitter.im/dominance_analysis/community](https://badges.gitter.im/dominance_analysis/community.svg)](https://gitter.im/dominance_analysis/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 *This package is designed to determine relative importance of predictors for both regression and classification models. The determination of relative importance depends on how one defines importance; Budescu (1993) and Azen and Budescu (2003) proposed using dominance analysis (DA) because it invokes a general and intuitive definition of "relative importance" that is based on the additional contribution of a predictor in all subset models. The purpose of determining predictor importance in the context of DA is not model selection but rather uncovering the individual contributions of the predictors.*
@@ -120,7 +123,7 @@ Note: Since, Dominance Analysis is computationally intensive as it builds all su
 
 ### Dominance Statistics
 
-As described earlier, a relative importance measure should be able to describe a predictor's direct, total and partial effet, therefore in the Dominance Statistics, we have come up with four different types of Dominance measures. **These measures have been conceptualized, defined and formulated by us and are unique to this library**. Below are the definitions and interpretations of the measures:
+As described earlier, a relative importance measure should be able to describe a predictor's direct, total and partial effect, therefore in the Dominance Statistics, we have come up with four different types of Dominance measures. **These measures have been conceptualized, defined and formulated by us and are unique to this library**. Below are the definitions and interpretations of the measures:
 
 1. **Interactional Dominance** - This is the incremental R<sup>2</sup> contribution of the predictor to the complete model. Hence, the Interactional Dominance of a particular predictor 'X' will be the diffrence between the R<sup>2</sup> of the complete model and the R<sup>2</sup> of the model with all other predictors except the particular predictor 'X'. <br>
 Consider a scenario when we have Y as the dependent variable and four predictors X<sub>1</sub>, X<sub>2</sub>, X<sub>3</sub> and X<sub>4</sub>, let  R<sup>2</sup><sub>Y.X<sub>1</sub>,X<sub>2</sub></sub> be the R<sup>2</sup> of the model between Y and X<sub>1</sub>, X<sub>2</sub> ;
@@ -143,6 +146,17 @@ In below table, we have illustrated the calculation used to arrive at the four m
 If we calculate the four measures of dominance from the above example, we will get the following values:
 <img src='images/Dominance_Analysis.JPG'>
 <p align="center"> Table 4</p>
+
+### Dominance Levels
+The following three levels of dominance can be achieved between each pair of predictors in Dominance Analysis: 
+* **Complete Dominance** - One predictor is said to completely dominate another predictor if its dominance holds across all possible subset models (that do not include the two predictors under comparison). Back to the four-predictor model, for example, complete dominance of X<sub>1</sub> over X<sub>2</sub> is achieved if the additional R<sup>2</sup> contribution of X<sub>1</sub> is more than that of X<sub>2</sub> to the null model, the model consisting of X<sub>3</sub>, the model consisting of X<sub>4</sub>, and the model consisting of both X<sub>3</sub> and X<sub>4</sub>. In Table 3, we can see that incremental R<sup>2</sup> of X<sub>1</sub> is greater than that of X<sub>2</sub> for all subset models and hence X<sub>1</sub> completely dominates X<sub>2</sub>.
+<br> If the additional contributions are inconsistent in favoring the same predictor across all subset models, then complete dominance is undetermined while weaker levels of dominance may still be achieved. 
+* **Conditional Dominance** - If a predictor’s averaged additional contribution within each model size is greater than that of another predictor, then the first predictor is said to conditionally dominate the latter. Here, the model size is indicated by the number of predictors included in a given model. If a predictor’s averaged additional contribution is greater for some model sizes but not for all, then conditional dominance between the two predictors cannot be established.
+* **General Dominance** - If overall averaged additional R<sup>2</sup> contribution of one predictor is greater than the other then that predictor is said to generally dominate the other. <br>
+
+The three levels of dominance (complete, conditional,and general) are related to each other in a hierarchical fashion: Complete dominance implies conditional dominance, which, in turn, implies general dominance. However, for p > 3 the converse may not
+hold; that is, general dominance does not imply conditional dominance and conditional dominance does not necessarily imply complete dominance.
+
 <hr>
 
 *Complete code for below examples is available in example folder or the following public kernels on Kaggle:
@@ -183,6 +197,8 @@ dominance_regression.plot_incremental_rsquare()
 <hr>
 <img src='images/pie_boston_house_price.png'>
 <hr>
+<img src='images/WaterFall_Boston.png'>
+<hr>
 
 
 **Dominance Statistics (R-Squared)**
@@ -191,6 +207,14 @@ dominance_regression.dominance_stats()
 ```
 <img src='images/housing_data_dominance_stats.JPG'>
 
+<hr>
+
+
+**Dominance Level**
+```
+dominance_regression.dominance_level()
+```
+<img src='images/Dominance_Level_Boston.JPG'>
 
 <hr>
 
@@ -227,6 +251,8 @@ dominance_classification.plot_incremental_rsquare()
 <hr>
 <img src='images/pie_breast_cancer_latest.png'>
 <hr>
+<img src='images/WaterFall_Breast_Cancer.png'>
+<hr>
 
 
 **Dominance Statistics (R-Squared)**
@@ -237,8 +263,17 @@ dominance_classification.dominance_stats()
 
 <hr>
 
+**Dominance Level**
+
+```
+dominance_classification.dominance_level()
+```
+<img src='images/Dominance_Levels_Breast_Cancer.JPG'>
+
+<hr>
+
 ### Authors & License
-The Dominance Analysis package is based on the concept developed by Azen and Budescu (see references). This package is released under a <a href=https://github.com/bhagatsajan0073/dominance_analysis/blob/master/LICENSE> MIT License</a>. Dominance Analysis Python package has been developed by <a href="https://github.com/quintshekhar"> Shashank Shekhar</a>, <a href="https://github.com/bhagatsajan0073"> Sajan Bhagat</a> and <a href="https://github.com/Vibish"> Kunjithapatham Sivakumar</a> . Pull requests submitted to the GitHub Repo are highly encouraged!
+The Dominance Analysis package is based on the concept developed by Azen and Budescu (see references). This package is released under a <a href="https://github.com/bhagatsajan0073/dominance_analysis/blob/master/LICENSE"> MIT License</a>. Dominance Analysis Python package has been developed by <a href="https://github.com/quintshekhar"> Shashank Shekhar</a>, <a href="https://github.com/bhagatsajan0073"> Sajan Bhagat</a> and <a href="https://github.com/Vibish"> Kunjithapatham Sivakumar</a> . Pull requests submitted to the GitHub Repo are highly encouraged!
 
 <hr>
 
